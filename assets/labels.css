@@ -1,0 +1,149 @@
+/* Footer: label row, closing line, links, skill-label playground and wordmark.
+   Everything is scoped under #footer; keyframes are lb- prefixed. Physics lives in labels.js;
+   without JS (or with reduced motion) the labels render as a static tilted pile. */
+
+#footer {
+  --lb-blue: var(--blue, #232de4);
+  --lb-coral: var(--coral, #e26255);
+  --lb-black: var(--black, #0a0a0a);
+  --lb-white: var(--white, #fff);
+  --lb-cap: var(--cap-on-blue, #c9ccff);
+  --lb-line: color-mix(in srgb, var(--lb-white) 42%, transparent);
+  --lb-gut: var(--space-1, clamp(16px, 2.6vw, 40px));
+  /* wordmark size: fills the footer width ("rishi charan" = 12 characters) */
+  --lb-wfs: calc((100vw - 2 * var(--lb-gut)) / (var(--len, 12) * .357));
+  /* free room above the wordmark where the labels pile up */
+  --lb-room: clamp(232px, 17vw + 60px, 330px);
+  container-type: inline-size;
+  position: relative;
+  background: var(--lb-blue);
+  color: var(--lb-white);
+  font-family: var(--font-1, Geist, Arial, sans-serif);
+  padding: clamp(56px, 7vw, 96px) 0 0;
+  overflow: clip;
+}
+@supports (width: 1cqw) {
+  #footer { --lb-wfs: calc((100cqw - 2 * var(--lb-gut)) / (var(--len, 12) * .357)); }
+}
+#footer *, #footer *::before, #footer *::after { box-sizing: border-box; }
+#footer p, #footer h2, #footer ul { margin: 0; }
+#footer ul { padding: 0; list-style: none; }
+#footer a { color: inherit; }
+#footer :focus-visible { outline: 2px solid var(--lb-white); outline-offset: 3px; border-radius: 2px; }
+
+#footer .lb-wrap { width: min(100%, 1400px); margin-inline: auto; padding-inline: var(--lb-gut); }
+
+/* Locomotive-style label row over a hairline */
+#footer .lb-row {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;
+  padding-bottom: 14px; border-bottom: 1px solid var(--lb-line);
+  font-size: 13px; line-height: 1.4; font-weight: 400;
+}
+#footer .lb-row > :nth-child(2) { text-align: center; }
+#footer .lb-row > :last-child { text-align: end; }
+
+#footer .lb-main {
+  display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 40px 32px; padding-top: clamp(40px, 5vw, 72px);
+}
+#footer .lb-title {
+  font-size: clamp(40px, 5.6vw, 88px); font-weight: 500; line-height: 1; letter-spacing: -0.045em;
+  max-width: 12ch; text-wrap: balance;
+}
+#footer .lb-mail {
+  display: inline-block; margin-top: clamp(22px, 2.6vw, 36px);
+  font-size: clamp(20px, 2.1vw, 30px); font-weight: 500; letter-spacing: -0.03em; line-height: 1.2;
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .22em;
+  text-decoration-color: var(--lb-line);
+  transition: text-decoration-color .25s;
+}
+#footer .lb-col { display: grid; gap: 14px; align-content: start; }
+#footer .lb-cap { font-size: 13px; line-height: 1.4; color: var(--lb-cap); }
+#footer .lb-col ul { display: grid; gap: 8px; }
+#footer .lb-link {
+  font-size: 17px; font-weight: 500; letter-spacing: -0.015em; line-height: 1.35;
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .25em;
+  text-decoration-color: transparent; transition: text-decoration-color .25s;
+}
+@media (hover: hover) {
+  #footer .lb-mail:hover, #footer .lb-link:hover { text-decoration-color: var(--lb-coral); text-decoration-thickness: 2px; }
+}
+
+/* Playground: pills pile up on the x-height of the wordmark */
+#footer .lb-stage {
+  position: relative;
+  height: calc(var(--lb-room) + var(--lb-wfs) * .62);
+  margin-top: clamp(24px, 3vw, 48px);
+}
+#footer .lb-stage::before { /* faint dot grid */
+  content: ""; position: absolute; inset: 0;
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--lb-white) 26%, transparent) 1.1px, transparent 1.6px);
+  background-size: 24px 24px; background-position: 12px 12px;
+  pointer-events: none;
+}
+#footer .lb-word {
+  position: absolute; left: var(--lb-gut); bottom: 0; z-index: 0;
+  font-family: var(--font-2, "TikTok Sans", Arial, sans-serif); font-weight: 300;
+  font-size: var(--lb-wfs); line-height: .82; letter-spacing: -0.03em;
+  font-variation-settings: "wdth" var(--wdth, 100);
+  white-space: nowrap; font-kerning: none; translate: 0 12%;
+  color: var(--lb-white); pointer-events: none; user-select: none;
+}
+#footer .lb-play { position: absolute; inset: 0; z-index: 1; overflow: clip; }
+#footer .lb-hint {
+  position: absolute; top: 18px; left: var(--lb-gut); z-index: 0;
+  display: none; align-items: center; gap: 8px;
+  font-size: 12px; line-height: 1; color: var(--lb-cap);
+}
+#footer .lb-hint__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--lb-coral); }
+
+/* Pills: static pile (no JS / reduced motion) */
+#footer .lb-pills {
+  position: absolute; inset: 0;
+  /* the floor sits on the wordmark's x-height; labels.js reads this padding as the floor */
+  padding: 0 var(--lb-gut) calc(var(--lb-wfs) * .48);
+  display: flex; flex-wrap: wrap-reverse; justify-content: center; align-content: flex-start; align-items: flex-start;
+  gap: 0 6px;
+}
+#footer .lb-pill {
+  --lb-bg: var(--lb-white); --lb-fg: var(--lb-blue); --lb-bd: var(--lb-blue);
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: .36em .78em .34em;
+  border: 2px solid var(--lb-bd); border-radius: 999px;
+  background: var(--lb-bg); color: var(--lb-fg);
+  font-family: var(--font-1, Geist, Arial, sans-serif);
+  font-size: clamp(15px, .55rem + 1.35vw, 28px); font-weight: 500; line-height: 1;
+  letter-spacing: -0.02em; text-transform: uppercase; white-space: nowrap;
+  rotate: var(--r, 0deg); margin: -.05em 0;
+  user-select: none; -webkit-user-select: none;
+  transition: background-color .2s, color .2s, border-color .2s;
+}
+#footer .lb-pill--black { --lb-bg: var(--lb-black); --lb-fg: var(--lb-white); }
+#footer .lb-pill--coral { --lb-bg: var(--lb-coral); --lb-fg: var(--lb-black); }
+#footer .lb-pill--line  { --lb-bg: var(--lb-blue); --lb-fg: var(--lb-white); --lb-bd: var(--lb-white); }
+
+@media (hover: hover) and (pointer: fine) {
+  #footer .lb-pill:hover { --lb-bg: var(--lb-coral); --lb-fg: var(--lb-black); }
+  #footer .lb-pill--coral:hover { --lb-bg: var(--lb-white); --lb-fg: var(--lb-blue); }
+}
+
+/* Live physics mode (set by labels.js) */
+#footer .lb-play.lb-live .lb-hint { display: inline-flex; }
+#footer .lb-play.lb-live .lb-pills { display: block; }
+#footer .lb-play.lb-live .lb-pill {
+  position: absolute; left: 0; top: 0; margin: 0; rotate: none;
+  transform: translate3d(-200vw, 0, 0);
+  cursor: grab; touch-action: none; will-change: transform;
+}
+#footer .lb-play.lb-live .lb-pill.lb-held { cursor: grabbing; z-index: 2; }
+#footer .lb-play.lb-dragging { cursor: grabbing; }
+
+@media (max-width: 860px) {
+  #footer .lb-main { grid-template-columns: 1fr 1fr; }
+  #footer .lb-cta { grid-column: 1 / -1; }
+}
+@media (max-width: 560px) {
+  #footer .lb-row { grid-template-columns: auto 1fr auto; gap: 12px; font-size: 12px; }
+  #footer .lb-pill { border-width: 1.5px; }
+  #footer { --lb-room: 250px; }
+}

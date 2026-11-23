@@ -1,0 +1,256 @@
+/* Shapes interlude — Locomotive-style marquee, blue band of flat shapes, staircase name.
+   Everything scoped to #shapes; keyframes prefixed sh-. Scroll motion only under [data-8b-live]. */
+
+#shapes {
+  --sh-blue: var(--blue, #232de4);
+  --sh-white: var(--white, #fff);
+  --sh-black: var(--black, #0a0a0a);
+  --sh-coral: var(--coral, #e26255);
+  --sh-light: #b9bdf6;
+  --sh-cap: var(--cap-on-blue, #c9ccff);
+  --sh-gut: var(--space-1, clamp(16px, 2.2vw, 32px));
+  position: relative;
+  overflow-x: clip;
+  background: var(--sh-white);
+  color: var(--sh-blue);
+  font-family: var(--font-1, Geist, Arial, sans-serif);
+}
+#shapes svg { display: block; }
+
+/* 1 — marquee strip */
+#shapes .sh-strip {
+  position: relative;
+  padding-block: clamp(12px, 1.6vw, 24px) clamp(18px, 2.4vw, 36px);
+  font-family: var(--font-2, "TikTok Sans", Arial, sans-serif);
+  font-weight: 300;
+  font-size: clamp(68px, 11.5vw, 184px);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  font-variation-settings: "wdth" 75;
+  font-stretch: 75%;
+}
+#shapes .sh-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  white-space: nowrap;
+  translate: -6% 0;
+}
+#shapes .sh-word { padding-bottom: .06em; }
+#shapes .sh-glyph {
+  flex: none;
+  width: .62em;
+  height: .62em;
+  margin-inline: .34em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* 2 — blue band */
+#shapes .sh-band {
+  position: relative;
+  overflow: clip;
+  background: var(--sh-blue);
+  color: var(--sh-white);
+}
+#shapes .sh-field { position: relative; pointer-events: none; }
+#shapes .sh-field--top { height: clamp(360px, 46vw, 660px); }
+#shapes .sh-field--low { height: clamp(320px, 40vw, 600px); }
+#shapes .sh-shape {
+  position: absolute;
+  left: var(--l);
+  top: var(--t);
+  width: var(--w);
+  aspect-ratio: 1;
+  rotate: var(--r, 0deg);
+}
+
+#shapes .sh-ring-broken { --l: -5%; --t: 34%; --w: max(130px, 17vw); --r: 12deg; color: var(--sh-white); }
+#shapes .sh-ring-broken circle { stroke-dasharray: 52 70.5; }
+#shapes .sh-donut {
+  border-radius: 50%;
+  border: calc(var(--w) * .2) solid;
+  box-sizing: border-box;
+}
+#shapes .sh-donut--white { --l: 37%; --t: 44%; --w: max(110px, 14vw); border-color: var(--sh-white); }
+#shapes .sh-donut--coral { --l: 60%; --t: 8%; --w: max(104px, 13vw); border-color: var(--sh-coral); }
+#shapes .sh-disc {
+  --l: 15%; --t: -6%; --w: max(96px, 12vw);
+  border-radius: 50%;
+  border: calc(var(--w) * .38) solid var(--sh-black);
+  box-sizing: border-box;
+}
+#shapes .sh-sun { --l: 81%; --t: 14%; --w: max(130px, 17vw); --r: 4deg; fill: var(--sh-white); }
+#shapes .sh-dot { --l: 27%; --t: 80%; --w: max(18px, 2.2vw); border-radius: 50%; background: var(--sh-black); }
+
+/* head: label row + title */
+#shapes .sh-head {
+  position: relative;
+  z-index: 1;
+  padding: clamp(24px, 4vw, 56px) var(--sh-gut) clamp(56px, 8vw, 120px);
+}
+#shapes .sh-labels,
+#shapes .sh-title { margin-left: 25%; }
+#shapes .sh-labels {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.35fr;
+  gap: 16px;
+  padding-top: 10px;
+  border-top: 1px solid var(--sh-cap);
+  font-size: 13px;
+  line-height: 1.45;
+}
+#shapes .sh-num,
+#shapes .sh-kicker { color: var(--sh-white); }
+#shapes .sh-desc { margin: 0; max-width: 34ch; color: var(--sh-cap); }
+#shapes .sh-title {
+  margin-top: clamp(28px, 3.4vw, 52px);
+  margin-bottom: 0;
+  font-family: var(--font-1, Geist, Arial, sans-serif);
+  font-weight: 500;
+  font-size: clamp(44px, 5.8vw, 92px);
+  line-height: .98;
+  letter-spacing: -0.04em;
+  color: var(--sh-white);
+}
+
+/* pill row */
+#shapes .sh-pills {
+  --pw: max(150px, 23vw);
+  display: flex;
+  justify-content: center;
+  padding-block: clamp(8px, 2vw, 32px);
+}
+#shapes .sh-pill {
+  position: relative;
+  flex: none;
+  width: var(--pw);
+  aspect-ratio: 340 / 160;
+  margin-left: calc(var(--pw) * -.1);
+  border-radius: 999px;
+  box-sizing: border-box;
+}
+#shapes .sh-pill:first-child { margin-left: 0; }
+#shapes .sh-pill--line { border: calc(var(--pw) * .055) solid var(--sh-white); }
+#shapes .sh-pill--white { background: var(--sh-white); }
+#shapes .sh-pill--black { background: var(--sh-black); }
+#shapes .sh-pill--coral { background: var(--sh-coral); }
+#shapes .sh-pill--sun { fill: var(--sh-white); }
+#shapes .sh-pill--sun .sh-slot { fill: var(--sh-blue); }
+#shapes .sh-pill--white::after,
+#shapes .sh-pill--coral::after {
+  content: "";
+  position: absolute;
+  inset: 38.75% 32.35%;
+  border-radius: 999px;
+  background: var(--sh-blue);
+}
+
+/* squircles */
+#shapes .sh-sq--black { --l: 3%; --t: 10%; --w: max(150px, 21vw); --r: -6deg; fill: var(--sh-black); }
+#shapes .sh-sq--coral { --l: 19%; --t: 34%; --w: max(150px, 21vw); --r: 8deg; fill: var(--sh-coral); }
+#shapes .sh-sq--ring { --l: 47%; --t: 2%; --w: max(130px, 19vw); --r: 45deg; fill: var(--sh-white); }
+#shapes .sh-sq--white { --l: 70%; --t: 38%; --w: max(130px, 18vw); --r: -10deg; fill: var(--sh-white); }
+
+/* 3 — staircase name */
+#shapes .sh-stair {
+  padding: clamp(48px, 7vw, 112px) var(--sh-gut);
+  font-weight: 500;
+  font-size: clamp(40px, 8.6vw, 140px);
+  line-height: .96;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+}
+#shapes .sh-stack { --step: 1.35em; }
+#shapes .sh-line {
+  display: block;
+  padding-left: calc(var(--i) * var(--step));
+}
+#shapes .sh-b { color: var(--sh-blue); }
+#shapes .sh-l { color: var(--sh-light); }
+#shapes .sh-line > span + span { margin-left: .12em; }
+
+@media (max-width: 720px) {
+  #shapes .sh-labels,
+  #shapes .sh-title { margin-left: 0; }
+  #shapes .sh-labels { grid-template-columns: auto 1fr; column-gap: 32px; }
+  #shapes .sh-desc { grid-column: 1 / -1; }
+  #shapes .sh-stack { --step: .5em; }
+  #shapes .sh-ring-broken { --t: 52%; --l: -14%; }
+  #shapes .sh-donut--white { --l: 34%; --t: 50%; }
+  #shapes .sh-donut--coral { --l: 54%; --t: 10%; }
+  #shapes .sh-sun { --l: 70%; --t: 46%; }
+  #shapes .sh-disc { --l: 4%; --t: 6%; }
+  #shapes .sh-dot { --l: 40%; --t: 34%; }
+  #shapes .sh-sq--black { --l: -8%; --t: 4%; }
+  #shapes .sh-sq--coral { --l: 16%; --t: 44%; }
+  #shapes .sh-sq--ring { --l: 58%; --t: -2%; --w: 120px; }
+  #shapes .sh-sq--white { --l: 60%; --t: 60%; --w: 120px; }
+}
+
+/* scroll-driven motion */
+@keyframes sh-marq { from { translate: 0 0; } to { translate: -34% 0; } }
+@keyframes sh-par {
+  from { translate: var(--x0, 0) var(--y0, 0); rotate: calc(var(--r, 0deg) - var(--spin, 0deg)); }
+  to { translate: var(--x1, 0) var(--y1, 0); rotate: calc(var(--r, 0deg) + var(--spin, 0deg)); }
+}
+
+[data-8b-live] #shapes .sh-strip { view-timeline: --sh-strip block; }
+[data-8b-live] #shapes .sh-track {
+  animation: sh-marq linear both;
+  animation-timeline: --sh-strip;
+  animation-range: cover 0% cover 100%;
+}
+[data-8b-live] #shapes .sh-field--top { view-timeline: --sh-top block; }
+[data-8b-live] #shapes .sh-field--low { view-timeline: --sh-low block; }
+[data-8b-live] #shapes .sh-pills { view-timeline: --sh-pills block; }
+[data-8b-live] #shapes .sh-stair { view-timeline: --sh-stair block; }
+
+[data-8b-live] #shapes .sh-shape,
+[data-8b-live] #shapes .sh-pill,
+[data-8b-live] #shapes .sh-line {
+  --y0: calc(var(--s, 1) * 9vh);
+  --y1: calc(var(--s, 1) * -9vh);
+  animation: sh-par linear both;
+  animation-timeline: --sh-top;
+  animation-range: cover 0% cover 100%;
+}
+[data-8b-live] #shapes .sh-ring-broken { --s: 2.2; --spin: 28deg; animation-range: cover 0% cover 90%; }
+[data-8b-live] #shapes .sh-donut--white { --s: 1.2; animation-range: entry 40% exit 60%; }
+[data-8b-live] #shapes .sh-donut--coral { --s: 2.8; --x0: 3vw; --x1: -3vw; animation-range: cover 0% cover 80%; }
+[data-8b-live] #shapes .sh-disc { --s: 1.8; animation-range: cover 10% cover 100%; }
+[data-8b-live] #shapes .sh-sun { --s: .8; --spin: 45deg; animation-range: cover 0% cover 100%; }
+[data-8b-live] #shapes .sh-dot { --s: 3.6; animation-range: entry 0% exit 100%; }
+
+[data-8b-live] #shapes .sh-pill {
+  --s: 0;
+  --x0: calc((var(--n) - 2) * 7vw);
+  --x1: calc((var(--n) - 2) * -1.5vw);
+  animation-name: sh-par;
+  animation-timeline: --sh-pills;
+  animation-range: entry 0% cover 45%;
+}
+
+[data-8b-live] #shapes .sh-sq { animation-timeline: --sh-low; }
+[data-8b-live] #shapes .sh-sq--black { --s: 1.6; --spin: 18deg; animation-range: cover 0% cover 85%; }
+[data-8b-live] #shapes .sh-sq--coral { --s: 2.6; --spin: -24deg; animation-range: entry 20% exit 70%; }
+[data-8b-live] #shapes .sh-sq--ring { --s: 1; --spin: 45deg; animation-range: cover 5% cover 100%; }
+[data-8b-live] #shapes .sh-sq--white { --s: 3; --spin: -30deg; animation-range: cover 0% cover 70%; }
+
+[data-8b-live] #shapes .sh-line {
+  --s: 0;
+  --x0: calc(10vw - var(--i) * 1vw);
+  --x1: calc(-2vw - var(--i) * 2.4vw);
+  animation-timeline: --sh-stair;
+  animation-range: entry 0% exit 40%;
+}
+
+@media (max-width: 720px) {
+  [data-8b-live] #shapes .sh-shape {
+    --y0: calc(var(--s, 1) * 4vh);
+    --y1: calc(var(--s, 1) * -4vh);
+  }
+}
