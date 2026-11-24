@@ -600,6 +600,9 @@ svg.shp { overflow: visible; }
 </style>
 <link rel="stylesheet" href="assets/shapes.css">
 <link rel="stylesheet" href="assets/labels.css">
+<link rel="stylesheet" href="assets/breaker.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@500&display=swap">
 <link rel="stylesheet" href="assets/services.css">
 <link rel="stylesheet" href="assets/nav-menu.css">
 <script data-8b-part="motion-gate">
@@ -912,8 +915,8 @@ if (matchMedia('(prefers-reduced-motion: no-preference)').matches && CSS.support
         <p class="lb-cap">Index</p>
         <ul role="list">
           <li><a class="lb-link" href="#work">Work</a></li>
-          <li><a class="lb-link" href="#services">Services</a></li>
-          <li><a class="lb-link" href="#process">Process</a></li>
+          <li><a class="lb-link" href="#practice">Services</a></li>
+          <li><a class="lb-link" href="#method">Process</a></li>
           <li><a class="lb-link" href="#contact">Contact</a></li>
         </ul>
       </nav>
@@ -929,22 +932,32 @@ if (matchMedia('(prefers-reduced-motion: no-preference)').matches && CSS.support
     </div>
   </div>
   <div class="lb-stage">
-    <div class="lb-play" data-lb-play>
-      <p class="lb-hint" aria-hidden="true"><span class="lb-hint__dot"></span>Drag the labels</p>
-      <ul class="lb-pills" role="list" aria-label="Skills">
-        <li class="lb-pill lb-pill--white" style="--r:-7deg">UI/UX designer</li>
-        <li class="lb-pill lb-pill--black" style="--r:4deg">Product designer</li>
-        <li class="lb-pill lb-pill--coral" style="--r:-3deg">Visual designer</li>
-        <li class="lb-pill lb-pill--line" style="--r:8deg">Web designer</li>
-        <li class="lb-pill lb-pill--white" style="--r:-5deg">User research</li>
-        <li class="lb-pill lb-pill--white" style="--r:6deg">Prototyping</li>
-        <li class="lb-pill lb-pill--coral" style="--r:-9deg">Design systems</li>
-        <li class="lb-pill lb-pill--black" style="--r:10deg">Figma</li>
-        <li class="lb-pill lb-pill--white" style="--r:-2deg">Mobile apps</li>
-        <li class="lb-pill lb-pill--line" style="--r:5deg">Dashboards</li>
-        <li class="lb-pill lb-pill--white" style="--r:-14deg">AI</li>
-        <li class="lb-pill lb-pill--black" style="--r:3deg">Workshops</li>
-      </ul>
+    <div class="lb-wrap">
+      <section class="bk" aria-label="Pixel Breaker, a small game: break the skill slabs with the paddle">
+        <div class="bk-frame" tabindex="0" aria-describedby="bk-help">
+          <div class="bk-hud">
+            <div class="bk-lives"><span class="bk-hearts"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.7 4.5c2.1 0 3.6 1.2 5.3 3.1 1.7-1.9 3.2-3.1 5.3-3.1 3.7 0 5.8 3.8 4.3 7.2C19.5 16.4 12 21 12 21z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.7 4.5c2.1 0 3.6 1.2 5.3 3.1 1.7-1.9 3.2-3.1 5.3-3.1 3.7 0 5.8 3.8 4.3 7.2C19.5 16.4 12 21 12 21z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.7 4.5c2.1 0 3.6 1.2 5.3 3.1 1.7-1.9 3.2-3.1 5.3-3.1 3.7 0 5.8 3.8 4.3 7.2C19.5 16.4 12 21 12 21z"/></svg></span><span class="bk-sep" aria-hidden="true"></span><span>Lives <b class="bk-lives-n">3</b></span></div>
+            <div class="bk-score"><span>Score</span><span class="bk-sep" aria-hidden="true"></span><b class="bk-score-n">00000</b></div>
+            <div class="bk-tools">
+              <button class="bk-btn bk-wave" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v5h-5"/></svg><span>New wave</span></button>
+              <span class="bk-sep" aria-hidden="true"></span>
+              <button class="bk-btn bk-pause" type="button" aria-label="Pause" aria-pressed="false"><svg class="bk-i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg><svg class="bk-i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5l12 7-12 7z"/></svg></button>
+              <button class="bk-btn bk-full" type="button" aria-label="Full screen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg></button>
+            </div>
+          </div>
+          <div class="bk-field">
+            <canvas class="bk-canvas" role="img" aria-label="Game field: skill slabs at the top, a ball and a paddle at the bottom"></canvas>
+            <p class="bk-msg" aria-live="polite"><span class="bk-msg__t">Press space or click to play</span></p>
+          </div>
+        </div>
+        <div class="bk-bar">
+          <div class="bk-name"><svg viewBox="0 0 32 24" aria-hidden="true"><path d="M9 4h14a7 7 0 0 1 6.8 8.6l-1.4 6.1a3.4 3.4 0 0 1-5.8 1.5L19.8 17h-7.6l-2.8 3.2a3.4 3.4 0 0 1-5.8-1.5l-1.4-6.1A7 7 0 0 1 9 4zM10 9v5M7.5 11.5h5M21 10.5h.01M24 13.5h.01"/></svg><b>Break the slabs</b><span class="bk-sep" aria-hidden="true"></span><span class="bk-tag">Hit, clear and keep going: new slabs keep coming!</span></div>
+          <p class="bk-keys" id="bk-help"><span class="bk-key-set"><kbd aria-label="Left arrow">&larr;</kbd><kbd aria-label="Right arrow">&rarr;</kbd> Move</span><span class="bk-key-set"><kbd>Space</kbd> Bounce</span><span class="bk-touch">Drag to move, tap to bounce</span></p>
+        </div>
+        <ul class="sr-only" aria-label="Skills on the slabs">
+          <li>UI/UX design</li><li>Product design</li><li>Visual design</li><li>User research</li><li>Prototyping</li><li>Design systems</li><li>Figma</li><li>Mobile apps</li><li>Dashboards</li><li>Interaction</li><li>Brand design</li><li>Workshops</li>
+        </ul>
+      </section>
     </div>
     <p class="lb-word" aria-hidden="true" style="--len:12">rishi charan</p>
   </div>
@@ -1248,7 +1261,7 @@ motionKit.scene("method-timeline", () => {
   });
 });
 </script>
-<script src="assets/labels.js" defer></script>
+<script src="assets/breaker.js" defer></script>
 <script src="assets/services.js" defer></script>
 <script src="assets/pixel-trail.js" defer></script>
 </body>

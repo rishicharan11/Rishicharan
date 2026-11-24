@@ -84,3 +84,7 @@ a view-timeline parallax. Without scroll-driven animations or with reduced motio
 ## Pixel cursor trail
 
 `assets/pixel-trail.js` is a dependency-free port of the 21st.dev `PixelCursorTrail` React component (same constants: 12px pixels, 40-pixel trail, 0.04 fade per frame, shrink with age). It draws on one fixed canvas over the page, keeps the native cursor, colours pixels blue on light grounds and white on blue/black ones, and is off for touch and reduced motion.
+
+## Footer game: Pixel Breaker
+
+`assets/breaker.js` + `assets/breaker.css` replace the drag-the-labels playground with a small brick breaker: skill slabs in the brand looks (white, outlined, coral, black) float at the top, a white ball with a fading trail, a white paddle with a coral bar, coral/white confetti on hits, dashed outlines where slabs broke, new slabs dropping into empty slots, waves with a bonus. HUD (lives, score, new wave, pause, full screen) and the key bar use Geist Mono. Keys are only captured while the game frame has focus; the loop runs only while the footer is on screen.
