@@ -274,22 +274,7 @@ svg.shp { overflow: visible; }
   #site-nav .nav__logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--font-1); font-weight: 500; font-size: 17px; letter-spacing: -0.02em; }
   #site-nav .nav__logo svg { width: 28px; height: 28px; }
   #site-nav .nav__logo .nav__mark-dot { fill: var(--coral); }
-  #site-nav .nav__links { display: flex; gap: clamp(18px, 2.4vw, 40px); margin-inline: auto; font-size: 15px; }
-  #site-nav .nav__links .m-link { background-size: 0 1px; }
-  @media (hover: hover) {
-    #site-nav .nav__links .m-link:hover { background-size: 100% 2px; }
-  }
-  #site-nav .m-btn-2 { color: inherit; }
-  #site-nav .nav__menu { display: none; }
-  #site-nav .nav__overlay { position: fixed; inset: 0; z-index: 60; background: var(--blue); color: var(--white); padding: 22px var(--space-1) 40px; display: flex; flex-direction: column; overflow-y: auto; }
-  #site-nav .nav__overlay[hidden] { display: none; }
-  #site-nav .nav__overlay nav { margin-top: auto; display: grid; gap: 6px; }
-  #site-nav .nav__overlay nav a { font-family: var(--font-1); font-size: clamp(40px, 12vw, 64px); font-weight: 500; letter-spacing: -0.04em; line-height: 1.08; text-decoration: none; }
-  #site-nav .nav__close { align-self: flex-end; color: var(--white); }
-  @media (max-width: 860px) {
-    #site-nav .nav__links, #site-nav .nav__cta { display: none; }
-    #site-nav .nav__menu { display: inline-flex; margin-left: auto; padding-block: 11px; }
-  }
+  #site-nav .nm { margin-left: auto; }
 }
 </style>
 <style data-8b-part="section:opening">
@@ -616,6 +601,7 @@ svg.shp { overflow: visible; }
 <link rel="stylesheet" href="assets/shapes.css">
 <link rel="stylesheet" href="assets/labels.css">
 <link rel="stylesheet" href="assets/services.css">
+<link rel="stylesheet" href="assets/nav-menu.css">
 <script data-8b-part="motion-gate">
 if (matchMedia('(prefers-reduced-motion: no-preference)').matches && CSS.supports('animation-timeline: view()')) document.documentElement.setAttribute('data-8b-live', '');
 </script>
@@ -628,23 +614,33 @@ if (matchMedia('(prefers-reduced-motion: no-preference)').matches && CSS.support
       <svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="9" fill="currentColor"/><rect class="nav__mark-dot" x="8" y="11" width="12" height="6" rx="3"/></svg>
       <span>Rishi Charan</span>
     </a>
-    <nav class="nav__links" aria-label="Main">
-      <a class="m-link" href="#work">Work</a>
-      <a class="m-link" href="#practice">Services</a>
-      <a class="m-link" href="#method">Process</a>
-      <a class="m-link" href="#contact">Contact</a>
-    </nav>
-    <a class="m-btn-2 nav__cta" href="#contact"><span class="m-btn-2__streak" aria-hidden="true"></span><span class="m-btn-2__label">Get in touch</span></a>
-    <button class="m-btn-2 nav__menu" type="button" aria-expanded="false" aria-controls="menu"><span class="m-btn-2__streak" aria-hidden="true"></span><span class="m-btn-2__label">Menu</span></button>
-  </div>
-  <div id="menu" class="nav__overlay" hidden>
-    <button class="m-btn-2 nav__close" type="button"><span class="m-btn-2__streak" aria-hidden="true"></span><span class="m-btn-2__label">Close</span></button>
-    <nav aria-label="Menu">
-      <a href="#work">Work</a>
-      <a href="#practice">Services</a>
-      <a href="#method">Process</a>
-      <a href="#contact">Contact</a>
-    </nav>
+    <div class="nm" data-open="false">
+      <div class="nm-box">
+        <button class="nm-toggle" type="button" aria-expanded="false" aria-controls="nm-menu" aria-label="Open menu">
+          <span class="nm-dot" aria-hidden="true"><span class="nm-dot__a"></span><span class="nm-dot__b"></span></span>
+          <span class="nm-grid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+        </button>
+        <div class="nm-wrap">
+          <div id="nm-menu" class="nm-menu">
+            <nav class="nm-main" aria-label="Main">
+              <a href="#work" style="--k:0">Work</a>
+              <a href="#practice" style="--k:1">Services</a>
+              <a href="#method" style="--k:2">Process</a>
+              <a href="#contact" style="--k:3">Contact</a>
+            </nav>
+            <div class="nm-sub" style="--k:4">
+              <p class="nm-label">Elsewhere</p>
+              <ul>
+                <li><a href="https://dribbble.com/rishi-charan" target="_blank" rel="noopener">Dribbble</a></li>
+                <li><a href="https://www.behance.net/rishi_charan" target="_blank" rel="noopener">Behance</a></li>
+                <li><a href="https://github.com/rishicharan11" target="_blank" rel="noopener">GitHub</a></li>
+                <li><a href="mailto:rishi041104@gmail.com">Email</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </header>
 <main id="main">
@@ -965,23 +961,30 @@ if (matchMedia('(prefers-reduced-motion: no-preference)').matches && CSS.support
     if (delta && Math.sign(delta) !== Math.sign(travel)) travel = 0;
     travel += delta;
     if (y < 160 || travel < -16) nav.classList.remove('is-hidden');
-    else if (travel > 16) nav.classList.add('is-hidden');
+    else if (travel > 16 && !nav.classList.contains('is-menu')) nav.classList.add('is-hidden');
   };
   addEventListener('scroll', update, { passive: true });
   update();
-  const button = nav.querySelector('.nav__menu');
-  const menu = document.getElementById('menu');
-  const close = menu.querySelector('.nav__close');
-  const setOpen = (open, returnFocus = true) => {
-    menu.hidden = !open;
-    button.setAttribute('aria-expanded', String(open));
-    if (open) { window.motionKit?.wheel?.stop(); close.focus(); }
-    else { window.motionKit?.wheel?.start(); if (returnFocus) button.focus(); }
+  // corner menu (offmenu-style): the dot + grid button grows into a dark panel
+  const menu = nav.querySelector('.nm');
+  const toggle = menu.querySelector('.nm-toggle');
+  const links = [...menu.querySelectorAll('.nm-menu a')];
+  links.forEach(a => a.tabIndex = -1);
+  const setOpen = (open, returnFocus = true, viaKeyboard = false) => {
+    menu.dataset.open = String(open);
+    nav.classList.toggle('is-menu', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    links.forEach(a => a.tabIndex = open ? 0 : -1);
+    if (open) { nav.classList.remove('is-hidden'); if (viaKeyboard) links[0].focus({ preventScroll: true }); }
+    else if (returnFocus) toggle.focus({ preventScroll: true });
   };
-  button.addEventListener('click', () => setOpen(menu.hidden));
-  close.addEventListener('click', () => setOpen(false));
-  menu.addEventListener('click', event => { if (event.target.closest('a')) setOpen(false, false); });
-  document.addEventListener('keydown', event => { if (event.key === 'Escape' && !menu.hidden) setOpen(false); });
+  const isOpen = () => menu.dataset.open === 'true';
+  toggle.addEventListener('click', event => setOpen(!isOpen(), true, event.detail === 0));
+  menu.addEventListener('click', event => { if (event.target.closest('.nm-menu a')) setOpen(false, false); });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape' && isOpen()) setOpen(false); });
+  document.addEventListener('pointerdown', event => { if (isOpen() && !menu.contains(event.target)) setOpen(false, false); });
+  menu.addEventListener('focusout', event => { if (isOpen() && event.relatedTarget && !menu.contains(event.relatedTarget)) setOpen(false, false); });
 })();
 </script>
 <script data-8b-part="section-script:contact">
