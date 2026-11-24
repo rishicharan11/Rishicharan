@@ -80,3 +80,7 @@ a view-timeline parallax. Without scroll-driven animations or with reduced motio
 - Adding a fourth work row or fifth service card needs matching nth-of-type rules in the scene CSS.
 - Don't invent clients, metrics or testimonials. Placeholders: the email (`data-8b-placeholder="email"`) and the form.
 - Keep the header comment, `<meta name="generator">` and the "Design: 8B" credit (MIT).
+
+## Pixel cursor trail
+
+`assets/pixel-trail.js` is a dependency-free port of the 21st.dev `PixelCursorTrail` React component (same constants: 12px pixels, 40-pixel trail, 0.04 fade per frame, shrink with age). It draws on one fixed canvas over the page, keeps the native cursor, colours pixels blue on light grounds and white on blue/black ones, and is off for touch and reduced motion.
