@@ -1,0 +1,145 @@
+/* Services cards: open into a full-screen viewer (Avara-style).
+   The card lifts on hover; on click it flies into a stage, its neighbours slide to the edges and dim,
+   and a detail panel slides in from the right (a bottom sheet on phones). */
+
+/* ---- cards in the row ---- */
+#practice .pr-card { cursor: pointer; transition: transform .55s cubic-bezier(.2,.9,.1,1); }
+#practice .pr-card.is-hidden { visibility: hidden; }
+@media (hover: hover) and (pointer: fine) {
+  #practice .pr-card:hover { transform: translateY(-10px) rotate(-1.2deg); }
+  #practice .pr-card:nth-child(even):hover { transform: translateY(-10px) rotate(1.2deg); }
+}
+
+#practice .pr-open {
+  position: absolute; inset: 0; z-index: 3; margin: 0; padding: 0; border: 0; background: none;
+  border-radius: inherit; cursor: pointer; color: inherit;
+}
+#practice .pr-open:focus-visible { outline: 2px solid var(--coral, #e26255); outline-offset: 4px; }
+/* the little "+" that grows into a "View details" pill */
+#practice .pr-open__plus,
+#practice .pr-open__label {
+  position: absolute; top: clamp(16px, 1.6vw, 22px); right: clamp(16px, 1.6vw, 22px);
+}
+#practice .pr-open__plus {
+  width: 30px; height: 30px; border-radius: 999px; background: var(--coral, #e26255);
+  transition: transform .5s cubic-bezier(.2,.9,.1,1), opacity .3s;
+}
+#practice .pr-open__plus::before,
+#practice .pr-open__plus::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 12px; height: 2px; margin: -1px 0 0 -6px;
+  border-radius: 2px; background: var(--black, #0a0a0a);
+}
+#practice .pr-open__plus::after { rotate: 90deg; }
+#practice .pr-open__label {
+  height: 30px; display: inline-flex; align-items: center; padding: 0 40px 0 14px; border-radius: 999px;
+  background: var(--coral, #e26255); color: var(--black, #0a0a0a);
+  font: 500 13px/1 var(--font-1, Geist, Arial, sans-serif); letter-spacing: -0.01em; white-space: nowrap;
+  opacity: 0; transform: scaleX(.3); transform-origin: 100% 50%;
+  transition: transform .55s cubic-bezier(.2,.9,.1,1), opacity .25s;
+}
+#practice .pr-card:hover .pr-open__label,
+#practice .pr-open:focus-visible .pr-open__label { opacity: 1; transform: none; }
+#practice .pr-card:hover .pr-open__plus,
+#practice .pr-open:focus-visible .pr-open__plus { transform: rotate(90deg); }
+/* keep the badge clear of the plus button */
+#practice .pr-card .m-badge, #practice .pr-card .m-badge-2 { margin-right: 40px; }
+
+/* ---- the viewer ---- */
+.sv {
+  position: fixed; inset: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none;
+  margin: 0; padding: 0; border: 0; background: transparent; overflow: hidden; color: var(--white, #fff);
+  --sv-ease: cubic-bezier(.76, 0, .24, 1);
+  --sv-out: cubic-bezier(.16, 1, .3, 1);
+  --sv-pw: min(440px, max(340px, 32vw));
+}
+.sv::backdrop { background: transparent; }
+.sv:not([open]) { display: none; }
+
+.sv-backdrop { position: absolute; inset: 0; background: var(--white, #fff); opacity: 0; transition: opacity .6s var(--sv-ease); }
+.sv.is-open .sv-backdrop { opacity: 1; }
+
+.sv-stage { position: absolute; inset: 0; }
+.sv-clone {
+  position: fixed !important; left: 0; top: 0; margin: 0 !important; z-index: 1;
+  transform-origin: 50% 50%; will-change: transform;
+  animation: none !important; translate: none !important; rotate: none !important;
+  transition: transform .9s var(--sv-ease), opacity .7s var(--sv-ease);
+  cursor: pointer;
+}
+.sv-clone.is-active { z-index: 2; cursor: default; }
+.sv-clone .pr-open, .sv-clone template { display: none; }
+.sv-clone .m-dot { animation: none !important; translate: none !important; scale: none !important; }
+
+/* panel: right column on desktop */
+.sv-panel {
+  position: absolute; z-index: 3; top: 8px; right: 8px; bottom: 8px; width: var(--sv-pw);
+  display: flex; flex-direction: column; padding: clamp(22px, 2.4vw, 32px);
+  background: var(--black, #0a0a0a); color: var(--white, #fff); border-radius: 20px;
+  transform: translateX(calc(100% + 24px)); transition: transform .75s var(--sv-ease);
+  overflow-y: auto; overscroll-behavior: contain;
+}
+.sv.is-open .sv-panel { transform: none; transition: transform .85s var(--sv-out) .18s; }
+
+.sv-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: clamp(28px, 4vh, 48px); }
+.sv-count { font: 400 13px/1 var(--font-1, Geist, Arial, sans-serif); color: rgba(255,255,255,.62); font-variant-numeric: tabular-nums; }
+.sv-close {
+  width: 40px; height: 40px; display: grid; place-items: center; padding: 0; border: 1px solid rgba(255,255,255,.28);
+  border-radius: 999px; background: transparent; color: inherit; cursor: pointer; transition: background-color .25s, border-color .25s;
+}
+.sv-close svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; transition: transform .5s cubic-bezier(.2,.9,.1,1); }
+@media (hover: hover) { .sv-close:hover { background: var(--coral, #e26255); border-color: var(--coral, #e26255); color: var(--black, #0a0a0a); } .sv-close:hover svg { transform: rotate(90deg); } }
+.sv-close:focus-visible, .sv-nav:focus-visible, .sv-cta:focus-visible, .sv-proj:focus-visible { outline: 2px solid var(--coral, #e26255); outline-offset: 3px; }
+
+.sv-body { transition: opacity .3s, transform .45s var(--sv-out); }
+.sv-body.is-swapping { opacity: 0; transform: translateY(12px); transition: opacity .18s, transform .18s; }
+.sv-title { margin: 0 0 18px; font: 500 clamp(30px, 2.6vw, 40px)/1.05 var(--font-1, Geist, Arial, sans-serif); letter-spacing: -0.035em; outline: none; }
+.sv-desc { margin: 0 0 clamp(28px, 4vh, 44px); font: 400 15px/1.55 var(--font-1, Geist, Arial, sans-serif); color: rgba(255,255,255,.78); }
+.sv-rows { margin: 0; font: 400 13px/1.4 var(--font-1, Geist, Arial, sans-serif); }
+.sv-rows > div { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 12px 0; border-top: 1px solid rgba(255,255,255,.14); }
+.sv-rows > div:last-child { border-bottom: 1px solid rgba(255,255,255,.14); }
+.sv-rows dt { color: rgba(255,255,255,.62); flex: none; }
+.sv-rows dd { margin: 0; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 5px; text-align: right; }
+.sv-tag { display: inline-block; padding: 4px 8px; border-radius: 6px; background: var(--blue, #232de4); color: var(--white, #fff); font-size: 12px; line-height: 1.2; }
+.sv-proj { color: inherit; text-decoration: none; background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; padding-bottom: 2px; }
+.sv-proj + .sv-proj { margin-left: 10px; }
+@media (hover: hover) { .sv-proj:hover { color: var(--coral, #e26255); } }
+
+.sv-foot { margin-top: auto; padding-top: 28px; }
+.sv-cta {
+  display: inline-flex; align-items: center; gap: 12px; padding: 13px 22px 13px 18px; border-radius: 999px;
+  background: var(--white, #fff); color: var(--black, #0a0a0a); text-decoration: none;
+  font: 500 14px/1 var(--font-1, Geist, Arial, sans-serif); letter-spacing: -0.01em;
+}
+.sv-cta__dot { width: 8px; height: 8px; border-radius: 999px; background: var(--coral, #e26255); transform-origin: 0 50%; transition: transform .5s cubic-bezier(.2,.9,.1,1); }
+@media (hover: hover) { .sv-cta:hover .sv-cta__dot { transform: scaleX(3); } }
+
+/* prev / next pill under the stage (Avara's "< >") */
+.sv-controls {
+  position: absolute; z-index: 3; bottom: clamp(20px, 4vh, 40px); left: calc((100vw - var(--sv-pw) - 16px) / 2);
+  display: flex; gap: 2px; padding: 3px; border-radius: 999px; background: var(--black, #0a0a0a);
+  transform: translate(-50%, 16px); opacity: 0; transition: opacity .4s, transform .6s var(--sv-out);
+}
+.sv.is-open .sv-controls { opacity: 1; transform: translate(-50%, 0); transition-delay: .35s; }
+.sv-nav { width: 40px; height: 34px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 999px; background: transparent; color: var(--white, #fff); cursor: pointer; transition: background-color .25s; }
+.sv-nav svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+@media (hover: hover) { .sv-nav:hover { background: rgba(255,255,255,.16); } }
+
+/* phones and narrow tablets: bottom sheet */
+@media (max-width: 899.98px) {
+  .sv { --sv-sheet: min(58dvh, 560px); }
+  .sv-panel {
+    top: auto; left: 8px; right: 8px; width: auto; height: var(--sv-sheet);
+    transform: translateY(calc(100% + 24px)); padding: 20px 20px 22px;
+  }
+  .sv-top { margin-bottom: 18px; }
+  .sv-title { font-size: 28px; margin-bottom: 12px; }
+  .sv-desc { font-size: 14px; margin-bottom: 22px; }
+  .sv-foot { padding-top: 20px; }
+  .sv-controls { left: 50%; bottom: calc(var(--sv-sheet) + 22px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #practice .pr-card, #practice .pr-open__label, #practice .pr-open__plus { transition: none; }
+  #practice .pr-card:hover, #practice .pr-card:nth-child(even):hover { transform: none; }
+  .sv-clone, .sv-panel, .sv.is-open .sv-panel, .sv-backdrop, .sv-controls, .sv.is-open .sv-controls, .sv-body { transition: opacity .2s !important; }
+}

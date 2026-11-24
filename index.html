@@ -386,19 +386,19 @@ svg.shp { overflow: visible; }
   #practice .pr-head { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: end; margin-bottom: clamp(36px, 5vw, 72px); padding-top: 28px; border-top: 1px solid var(--hairline); }
   #practice .pr-head .m-text { max-width: 40ch; justify-self: end; }
   #practice .pr-row { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(12px, 2vw, 28px); align-items: start; }
-  #practice .pr-card { position: relative; aspect-ratio: 254 / 448; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; padding: clamp(16px, 1.6vw, 22px); overflow: hidden; }
-  #practice .pr-card:nth-child(even) { aspect-ratio: 254 / 395; margin-top: clamp(56px, 8.4vw, 118px); }
-  #practice .pr-card:nth-child(3) { background: var(--blue); }
-  #practice .pr-card > :not(.pr-art) { position: relative; z-index: 1; }
-  #practice .pr-art { position: absolute; z-index: 0; right: clamp(16px, 1.6vw, 22px); top: clamp(64px, 17%, 110px); font-size: clamp(84px, 8vw, 128px); }
-  #practice .pr-card:nth-child(1) .pr-art { color: var(--white); }
-  #practice .pr-card:nth-child(2) .pr-art { color: var(--coral); }
-  #practice .pr-card:nth-child(3) .pr-art { color: var(--white); --hole: var(--blue); }
-  #practice .pr-card:nth-child(4) .pr-art { color: var(--coral); }
-  #practice .m-surface-3__body { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; }
-  #practice .pr-foot { display: grid; gap: 10px; }
-  #practice .pr-foot .m-text-5 { max-width: 15ch; }
-  #practice .pr-foot p:last-child { max-width: 30ch; }
+  #practice .pr-card, .sv-stage .pr-card { position: relative; aspect-ratio: 254 / 448; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; padding: clamp(16px, 1.6vw, 22px); overflow: hidden; }
+  #practice .pr-card:nth-child(even), .sv-stage .pr-card:nth-child(even) { aspect-ratio: 254 / 395; margin-top: clamp(56px, 8.4vw, 118px); }
+  #practice .pr-card:nth-child(3), .sv-stage .pr-card:nth-child(3) { background: var(--blue); }
+  #practice .pr-card > :not(.pr-art), .sv-stage .pr-card > :not(.pr-art) { position: relative; z-index: 1; }
+  #practice .pr-art, .sv-stage .pr-art { position: absolute; z-index: 0; right: clamp(16px, 1.6vw, 22px); top: clamp(64px, 17%, 110px); font-size: clamp(84px, 8vw, 128px); }
+  #practice .pr-card:nth-child(1) .pr-art, .sv-stage .pr-card:nth-child(1) .pr-art { color: var(--white); }
+  #practice .pr-card:nth-child(2) .pr-art, .sv-stage .pr-card:nth-child(2) .pr-art { color: var(--coral); }
+  #practice .pr-card:nth-child(3) .pr-art, .sv-stage .pr-card:nth-child(3) .pr-art { color: var(--white); --hole: var(--blue); }
+  #practice .pr-card:nth-child(4) .pr-art, .sv-stage .pr-card:nth-child(4) .pr-art { color: var(--coral); }
+  #practice .m-surface-3__body, .sv-stage .m-surface-3__body { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; }
+  #practice .pr-foot, .sv-stage .pr-foot { display: grid; gap: 10px; }
+  #practice .pr-foot .m-text-5, .sv-stage .pr-foot .m-text-5 { max-width: 15ch; }
+  #practice .pr-foot p:last-child, .sv-stage .pr-foot p:last-child { max-width: 30ch; }
   @media (max-width: 1024px) {
     #practice .pr-row { grid-template-columns: repeat(2, 1fr); }
   }
@@ -408,8 +408,8 @@ svg.shp { overflow: visible; }
   }
   @media (max-width: 600px) {
     #practice .pr-row { grid-template-columns: 1fr; gap: 14px; }
-    #practice .pr-card, #practice .pr-card:nth-child(even) { aspect-ratio: 1 / 1.08; margin-top: 0; }
-    #practice .pr-art { top: 20px; font-size: 92px; }
+    #practice .pr-card, #practice .pr-card:nth-child(even), .sv-stage .pr-card, .sv-stage .pr-card:nth-child(even) { aspect-ratio: 1 / 1.08; margin-top: 0; }
+    #practice .pr-art, .sv-stage .pr-art { top: 20px; font-size: 92px; }
   }
 }
 </style>
@@ -615,6 +615,7 @@ svg.shp { overflow: visible; }
 </style>
 <link rel="stylesheet" href="assets/shapes.css">
 <link rel="stylesheet" href="assets/labels.css">
+<link rel="stylesheet" href="assets/services.css">
 <script data-8b-part="motion-gate">
 if (matchMedia('(prefers-reduced-motion: no-preference)').matches && CSS.supports('animation-timeline: view()')) document.documentElement.setAttribute('data-8b-live', '');
 </script>
@@ -699,6 +700,9 @@ if (matchMedia('(prefers-reduced-motion: no-preference)').matches && CSS.support
         <h3 class="m-text-5">UI/UX design</h3>
         <p class="m-text-7">Flows, wireframes and interfaces for mobile and web, shaped around what people are actually trying to do.</p>
       </div>
+    
+      <button class="pr-open" type="button" aria-haspopup="dialog" aria-label="Open details: UI/UX design"><span class="pr-open__label">View details</span><span class="pr-open__plus" aria-hidden="true"></span></button>
+      <template class="pr-detail"><h3 class="sv-title" id="sv-title" tabindex="-1">UI/UX design</h3><p class="sv-desc">I turn requirements and research into flows people can move through without thinking: user flows and wireframes first, then high-fidelity screens for mobile and web, with the empty, loading and error states designed too.</p><dl class="sv-rows"><div><dt>Deliverables</dt><dd><span class="sv-tag">User flows</span><span class="sv-tag">Wireframes</span><span class="sv-tag">Hi-fi screens</span><span class="sv-tag">Prototypes</span></dd></div><div><dt>Where</dt><dd>iOS, Android, Web</dd></div><div><dt>Tools</dt><dd>Figma, FigJam</dd></div><div><dt>Seen in</dt><dd><a class="sv-proj" href="#wk-closet">Closet</a><a class="sv-proj" href="#wk-hydr8">Hydr8</a></dd></div></dl></template>
     </article>
     <article class="pr-card m-surface-3" style="--practice-article-pr-card-translate-from: 60vw; --practice-article-pr-card-rotate-from: 8deg">
       <svg class="shp pr-art" viewBox="-50 -50 100 100" aria-hidden="true" fill="currentColor"><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(0.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(15.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(30.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(45.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(60.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(75.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(90.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(105.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(120.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(135.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(150.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(165.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(180.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(195.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(210.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(225.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(240.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(255.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(270.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(285.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(300.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(315.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(330.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(345.0)"/></svg>
@@ -710,6 +714,9 @@ if (matchMedia('(prefers-reduced-motion: no-preference)').matches && CSS.support
           <p class="m-text-7">A feature end to end: the problem, the flow, the edge cases and a clean handoff to development.</p>
         </div>
       </div>
+    
+      <button class="pr-open" type="button" aria-haspopup="dialog" aria-label="Open details: Product design"><span class="pr-open__label">View details</span><span class="pr-open__plus" aria-hidden="true"></span></button>
+      <template class="pr-detail"><h3 class="sv-title" id="sv-title" tabindex="-1">Product design</h3><p class="sv-desc">Owning a feature end to end: framing the problem, mapping the flow and its edge cases, designing the screens and handing over specs a developer can build from without guessing.</p><dl class="sv-rows"><div><dt>Deliverables</dt><dd><span class="sv-tag">Problem framing</span><span class="sv-tag">Flows</span><span class="sv-tag">Edge cases</span><span class="sv-tag">Dev handoff</span></dd></div><div><dt>Where</dt><dd>Idea to launch</dd></div><div><dt>Tools</dt><dd>Figma, FigJam</dd></div><div><dt>Seen in</dt><dd><a class="sv-proj" href="#wk-hydr8">Hydr8</a><a class="sv-proj" href="#wk-pulse">Pulse</a></dd></div></dl></template>
     </article>
     <article class="pr-card m-surface-3" style="--practice-article-pr-card-translate-from: -60vw; --practice-article-pr-card-rotate-from: -8deg">
       <span class="shp shp-squircle pr-art" aria-hidden="true"></span>
@@ -721,6 +728,9 @@ if (matchMedia('(prefers-reduced-motion: no-preference)').matches && CSS.support
           <p class="m-text-7">Type, colour, icons and components that make a product look and feel like one thing.</p>
         </div>
       </div>
+    
+      <button class="pr-open" type="button" aria-haspopup="dialog" aria-label="Open details: Visual design"><span class="pr-open__label">View details</span><span class="pr-open__plus" aria-hidden="true"></span></button>
+      <template class="pr-detail"><h3 class="sv-title" id="sv-title" tabindex="-1">Visual design</h3><p class="sv-desc">Type, colour, icons and components shaped into a small system, so every screen looks like it belongs to the same product and new screens are quick to build.</p><dl class="sv-rows"><div><dt>Deliverables</dt><dd><span class="sv-tag">Style guide</span><span class="sv-tag">Icons</span><span class="sv-tag">Components</span><span class="sv-tag">UI kit</span></dd></div><div><dt>Where</dt><dd>Apps, Dashboards</dd></div><div><dt>Tools</dt><dd>Figma</dd></div><div><dt>Seen in</dt><dd><a class="sv-proj" href="#wk-pulse">Pulse</a><a class="sv-proj" href="#wk-closet">Closet</a></dd></div></dl></template>
     </article>
     <article class="pr-card m-surface-2" style="--practice-article-pr-card-translate-from: 60vw; --practice-article-pr-card-rotate-from: 8deg">
       <span class="shp shp-donut pr-art" aria-hidden="true"></span>
@@ -730,9 +740,27 @@ if (matchMedia('(prefers-reduced-motion: no-preference)').matches && CSS.support
         <h3 class="m-text-5">User research</h3>
         <p class="m-text-2">Interviews, usability tests and quick clickable prototypes to check an idea before it gets expensive.</p>
       </div>
+    
+      <button class="pr-open" type="button" aria-haspopup="dialog" aria-label="Open details: User research"><span class="pr-open__label">View details</span><span class="pr-open__plus" aria-hidden="true"></span></button>
+      <template class="pr-detail"><h3 class="sv-title" id="sv-title" tabindex="-1">User research</h3><p class="sv-desc">Talking to the people who will use the product, before and after designing it: interviews, usability tests on clickable prototypes and a short write-up of what to change next.</p><dl class="sv-rows"><div><dt>Deliverables</dt><dd><span class="sv-tag">Interviews</span><span class="sv-tag">Usability tests</span><span class="sv-tag">Insights</span><span class="sv-tag">Personas</span></dd></div><div><dt>Where</dt><dd>Before and after design</dd></div><div><dt>Tools</dt><dd>Figma prototypes, FigJam</dd></div><div><dt>Seen in</dt><dd><a class="sv-proj" href="#wk-hydr8">Hydr8</a></dd></div></dl></template>
     </article>
   </div>
 </section>
+
+<!-- services viewer: a clicked card flies into a full-screen stage and a detail panel slides in (assets/services.css + assets/services.js) -->
+<dialog id="sv" class="sv" aria-labelledby="sv-title">
+  <div class="sv-backdrop" aria-hidden="true"></div>
+  <div class="sv-stage"></div>
+  <div class="sv-controls">
+    <button class="sv-nav sv-prev" type="button" aria-label="Previous service"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6"/></svg></button>
+    <button class="sv-nav sv-next" type="button" aria-label="Next service"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg></button>
+  </div>
+  <aside class="sv-panel">
+    <div class="sv-top"><span class="sv-count" aria-live="polite"></span><button class="sv-close" type="button" aria-label="Close details"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="sv-body"></div>
+    <div class="sv-foot"><a class="sv-cta" href="#contact"><span class="sv-cta__dot" aria-hidden="true"></span>Start a project</a></div>
+  </aside>
+</dialog>
 
 <!-- work: three projects as an index: a huge title, kind and year, and a photo that opens from a pill (animation: scene:work-index) -->
 <section id="work" data-8b-section="work" aria-labelledby="work-title">
@@ -742,17 +770,17 @@ if (matchMedia('(prefers-reduced-motion: no-preference)').matches && CSS.support
       <p class="m-text">Three recent projects: two mobile apps and a set of dashboard components.</p>
     </div>
     <div class="wk-list" data-8b-items=":scope > .wk-row" data-8b-fixed="3">
-      <article class="wk-row">
+      <article class="wk-row" id="wk-closet">
         <h3 class="m-text-6 wk-title">Closet</h3>
         <p class="m-text-2 wk-meta"><span>Mobile app</span><span>Outfit picker with a “Spin the closet” shuffle</span><span>2025</span></p>
         <figure class="wk-shot"><img src="assets/work/closet.jpg" alt="The Closet app on a phone: a “Pick for the day” screen with a blue quarter zip, blue jeans and white sneakers above a “Spin the closet” button" width="1800" height="1233" loading="lazy"></figure>
       </article>
-      <article class="wk-row">
+      <article class="wk-row" id="wk-hydr8">
         <h3 class="m-text-6 wk-title">Hydr8</h3>
         <p class="m-text-2 wk-meta"><span>Mobile app</span><span>Hydration and water-quality tracker</span><span>2025</span></p>
         <figure class="wk-shot"><img class="wk-shot__img--high" src="assets/work/hydr8.jpg" alt="The Hydr8 app on a phone: a daily 2500 ml goal at 75% and water-quality cards for pH, calcium, magnesium and sodium" width="1800" height="1233" loading="lazy"></figure>
       </article>
-      <article class="wk-row">
+      <article class="wk-row" id="wk-pulse">
         <h3 class="m-text-6 wk-title">Pulse</h3>
         <p class="m-text-2 wk-meta"><span>Web UI kit</span><span>Dark dashboard widgets</span><span>2026</span></p>
         <figure class="wk-shot"><img src="assets/work/dashboard.jpg" alt="A laptop showing dark dashboard widgets: a revenue card, a monthly budget bar chart, a weekly revenue line, a performance score dial and a signature pad" width="1658" height="1238" loading="lazy"></figure>
@@ -1218,5 +1246,6 @@ motionKit.scene("method-timeline", () => {
 });
 </script>
 <script src="assets/labels.js" defer></script>
+<script src="assets/services.js" defer></script>
 </body>
 </html>
