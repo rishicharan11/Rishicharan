@@ -159,12 +159,12 @@
 #shapes .sh-stair {
   padding: clamp(48px, 7vw, 112px) var(--sh-gut);
   font-weight: 500;
-  font-size: clamp(40px, 8.6vw, 140px);
+  font-size: clamp(36px, 7.6vw, 124px);
   line-height: .96;
   letter-spacing: -0.045em;
   white-space: nowrap;
 }
-#shapes .sh-stack { --step: 1.35em; }
+#shapes .sh-stack { --step: 1.1em; }
 #shapes .sh-line {
   display: block;
   padding-left: calc(var(--i) * var(--step));
