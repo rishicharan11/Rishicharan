@@ -73,7 +73,7 @@
 #footer .lb-stage {
   position: relative;
   margin-top: clamp(40px, 5vw, 72px);
-  padding-top: clamp(16px, 2vw, 28px);
+  padding: clamp(16px, 2vw, 28px) 0 clamp(48px, 6vw, 88px);
 }
 #footer .lb-stage::before { /* faint dot grid */
   content: ""; position: absolute; inset: 0;
@@ -81,14 +81,7 @@
   background-size: 24px 24px; background-position: 12px 12px;
   pointer-events: none;
 }
-#footer .lb-word {
-  position: relative; margin: clamp(36px, 5vw, 72px) 0 0 var(--lb-gut); z-index: 0;
-  font-family: var(--font-2, "TikTok Sans", Arial, sans-serif); font-weight: 300;
-  font-size: var(--lb-wfs); line-height: .82; letter-spacing: -0.03em;
-  font-variation-settings: "wdth" var(--wdth, 100);
-  white-space: nowrap; font-kerning: none; translate: 0 12%;
-  color: var(--lb-white); pointer-events: none; user-select: none;
-}
+
 @media (max-width: 860px) {
   #footer .lb-main { grid-template-columns: 1fr 1fr; }
   #footer .lb-cta { grid-column: 1 / -1; }
