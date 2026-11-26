@@ -18,7 +18,12 @@
   function randGlyph() { return GLYPHS.charAt((Math.random() * GLYPHS.length) | 0); }
 
   // Greedy word wrap; words longer than cols are hard-split.
+  // A "^" in the text forces a line break (keeps e.g. a full name on one line).
   function wrap(text, cols) {
+    var parts = String(text).split('^');
+    if (parts.length > 1) {
+      return parts.reduce(function (acc, part) { return acc.concat(wrap(part, cols)); }, []);
+    }
     var words = String(text).toUpperCase().trim().split(/\s+/).filter(Boolean);
     var lines = [];
     var cur = '';
@@ -105,18 +110,18 @@
   Board.prototype.updateSr = function () {
     var role = this.roles[this.roleIndex];
     var parts = [this.intro, (this.lead ? this.lead + ' ' : '') + role, this.outro()].filter(Boolean);
-    this.sr.textContent = parts.join('. ').replace(/\.\./g, '.');
+    this.sr.textContent = parts.join('. ').replace(/\^/g, ' ').replace(/\.\./g, '.');
   };
   Board.prototype.outro = function () { return this.el.getAttribute('data-outro') || ''; };
 
   Board.prototype.longest = function () {
     var self = this;
-    var n = Math.max(this.intro.length, this.outro().length);
+    var n = Math.max.apply(null, (this.intro + '^' + this.outro()).split('^').map(function (x) { return x.trim().length; }));
     this.roles.forEach(function (r) { n = Math.max(n, (self.lead ? self.lead.length + 1 : 0) + r.length); });
     return n;
   };
   Board.prototype.longestWord = function () {
-    var all = [this.intro, this.lead, this.outro()].concat(this.roles).join(' ').split(/\s+/);
+    var all = [this.intro, this.lead, this.outro()].concat(this.roles).join(' ').replace(/\^/g, ' ').split(/\s+/);
     return all.reduce(function (m, w) { return Math.max(m, w.length); }, 1);
   };
 
@@ -138,37 +143,48 @@
     return out;
   };
 
+  // rows needed for a given column count (stable across roles, pause tile kept free)
+  Board.prototype.measureRows = function (cols) {
+    var self = this, lead = this.lead ? this.lead + ' ' : '';
+    var roleRows = 1;
+    for (var i = 0; i < this.roles.length; i++) roleRows = Math.max(roleRows, wrap(lead + this.roles[i], cols).length);
+    var rows = wrap(this.intro, cols).length + roleRows + wrap(this.outro(), cols).length;
+    var clash = this.roles.some(function (_, ri) { var a = self.compose(ri, cols, roleRows, rows); return a[a.length - 1] !== ' '; });
+    return { rows: clash ? rows + 1 : rows, roleRows: roleRows };
+  };
+
+  // Pick the column count that gives the biggest tiles within the width and a height budget,
+  // so the board wraps into more, larger rows instead of one long thin strip.
   Board.prototype.layout = function () {
     var w = this.el.clientWidth;
     if (!w) return;
-    var cols;
-    var longest = this.longest();
-    if (w < NARROW) {
-      cols = Math.round(w / 27);
-      cols = Math.max(11, Math.min(13, cols));
-      cols = Math.max(cols, this.longestWord());
-    } else {
-      cols = Math.max(20, Math.min(26, longest + 1));
+    var narrow = w < NARROW;
+    var maxH = Math.max(220, window.innerHeight * (narrow ? 0.56 : 0.6));
+    var lo = Math.max(this.longestWord() + (narrow ? 0 : 1), narrow ? 8 : 12);
+    var hi = narrow ? Math.max(lo, 13) : Math.max(lo, this.longest() + 1);
+    var best = null;
+    for (var c = hi; c >= lo; c--) {
+      var m = this.measureRows(c);
+      var tw = w / (c + GAP_RATIO * (c - 1));
+      var th = maxH / (m.rows + GAP_RATIO * (m.rows - 1));
+      var t = Math.min(tw, th);
+      if (!best || t > best.tile + 0.5) best = { cols: c, rows: m.rows, roleRows: m.roleRows, tile: t };
     }
-
-    var tile = Math.floor((w / (cols + GAP_RATIO * (cols - 1))) * 100) / 100;
-    if (tile < MIN_TILE && w >= NARROW) tile = MIN_TILE;
+    // trim columns no line uses, so the board hugs its text
+    var self2 = this, lead2 = this.lead ? this.lead + ' ' : '', used = 0;
+    var all = wrap(this.intro, best.cols).concat(wrap(this.outro(), best.cols));
+    this.roles.forEach(function (r) { all = all.concat(wrap(lead2 + r, best.cols)); });
+    all.forEach(function (l) { used = Math.max(used, l.length); });
+    if (used && used < best.cols) {
+      var mt = this.measureRows(used);
+      if (mt.rows <= best.rows) {
+        best.cols = used; best.rows = mt.rows; best.roleRows = mt.roleRows;
+        best.tile = Math.min(w / (used + GAP_RATIO * (used - 1)), maxH / (mt.rows + GAP_RATIO * (mt.rows - 1)));
+      }
+    }
+    var cols = best.cols, rows = best.rows, roleRows = best.roleRows;
+    var tile = Math.max(MIN_TILE, Math.floor(best.tile * 100) / 100);
     var gap = Math.floor(tile * GAP_RATIO * 100) / 100;
-    // recompute tile so the grid fills the width exactly after gap rounding
-    tile = Math.floor(((w - gap * (cols - 1)) / cols) * 100) / 100;
-
-    var self = this;
-    var roleRows = 1;
-    for (var i = 0; i < this.roles.length; i++) {
-      roleRows = Math.max(roleRows, wrap((this.lead ? this.lead + ' ' : '') + this.roles[i], cols).length);
-    }
-    var rows = wrap(this.intro, cols).length + roleRows + wrap(this.outro(), cols).length;
-    // keep the bottom-right tile free for the pause button
-    var clash = this.roles.some(function (_, ri) {
-      var a = self.compose(ri, cols, roleRows, rows);
-      return a[a.length - 1] !== ' ';
-    });
-    if (clash) rows += 1;
 
     var s = this.el.style;
     s.setProperty('--fb-tile', tile + 'px');
@@ -247,7 +263,6 @@
     for (var i = 0; i < target.length; i++) {
       var hv = this.hoverTimers.get(i);
       if (hv) { clearTimeout(hv); this.hoverTimers.delete(i); this.setChar(i, this.shown[i]); }
-      if (target[i] === this.shown[i] && !this.anim.has(i)) continue;
       var r = (i / cols) | 0;
       var c = i % cols;
       var delay, dur;
@@ -255,8 +270,8 @@
         delay = (c / cols) * 520 + r * 90 + rand(0, 240);
         dur = rand(320, 760);
       } else {
-        delay = (c / cols) * 380 + rand(0, 170);
-        dur = rand(300, 700);
+        delay = (c / cols) * 420 + r * 70 + rand(0, 160);
+        dur = rand(320, 680);
       }
       this.anim.set(i, { target: target[i], start: now + delay, end: now + delay + dur, next: 0 });
     }

@@ -283,9 +283,9 @@ svg.shp { overflow: visible; }
   #opening .op-hero { height: 100svh; min-height: 640px; }
   #opening .op-panel { position: relative; height: 100%; overflow: hidden; isolation: isolate; background: var(--blue); color: var(--white); }
   #opening .op-hero .m-btn-2 { color: var(--white); padding-block: 15px; }
-  #opening .op-copy { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; justify-content: center; padding: 104px var(--space-1) clamp(48px, 8vh, 88px); }
-  #opening .op-board { width: min(100%, 1240px); --fb-max: 1240px; }
-  #opening .op-actions { margin-top: clamp(28px, 4.5vh, 48px); display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font-size: 15px; }
+  #opening .op-copy { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 96px var(--space-1) clamp(40px, 7vh, 80px); }
+  #opening .op-board { width: min(100%, 1360px); --fb-max: 1360px; }
+  #opening .op-actions { margin-top: clamp(28px, 4.5vh, 48px); display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; font-size: 15px; }
   @media (prefers-reduced-motion: no-preference) {
     #opening .op-actions { animation: op-rise .95s cubic-bezier(.2,.8,.2,1) .4s backwards; }
   }
@@ -602,7 +602,7 @@ if (matchMedia('(prefers-reduced-motion: no-preference)').matches && CSS.support
         <h1 class="sr-only" id="opening-title">Hi, I&rsquo;m Rishi Charan, a UI/UX designer, product designer, visual designer, UX designer and UX researcher. I design for living.</h1>
         <div class="op-board">
           <div class="fb" data-fb
-               data-intro="HI, I'M RISHI"
+               data-intro="HI, I'M^RISHI CHARAN"
                data-lead="A"
                data-roles="UI/UX DESIGNER|PRODUCT DESIGNER|VISUAL DESIGNER|UX DESIGNER|UX RESEARCHER"
                data-outro="I DESIGN FOR LIVING."

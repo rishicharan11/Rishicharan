@@ -27,6 +27,7 @@
   gap: var(--fb-gap);
   width: max-content;
   max-width: 100%;
+  margin-inline: auto;
 }
 
 .fb-t {
