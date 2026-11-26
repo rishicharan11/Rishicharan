@@ -1,0 +1,111 @@
+/* Split-flap ("Solari") board. Scoped under .fb; sizing vars are set by flipboard.js */
+.fb {
+  --fb-ground: var(--blue, #232de4);
+  --fb-tile-bg: color-mix(in srgb, var(--blue, #232de4) 74%, var(--black, #0a0a0a));
+  --fb-ink: var(--white, #ffffff);
+  --fb-coral: var(--coral, #e26255);
+  --fb-white: var(--white, #ffffff);
+  --fb-black: var(--black, #0a0a0a);
+  --fb-light: var(--light-blue, #b9bdf6);
+  --fb-tile: 32px;   /* overwritten by JS */
+  --fb-gap: 4px;     /* overwritten by JS */
+  --fb-cols: 21;     /* overwritten by JS */
+  --fb-rows: 3;      /* overwritten by JS */
+  position: relative;
+  width: 100%;
+  max-width: var(--fb-max, 760px);
+  font-family: var(--font-1, "Geist", Arial, sans-serif);
+  font-weight: 500;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.fb-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--fb-cols), var(--fb-tile));
+  grid-auto-rows: var(--fb-tile);
+  gap: var(--fb-gap);
+  width: max-content;
+  max-width: 100%;
+}
+
+.fb-t {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--fb-tile);
+  height: var(--fb-tile);
+  border-radius: calc(var(--fb-tile) * 0.12);
+  background: var(--fb-tile-bg);
+  color: var(--fb-ink);
+  font-size: calc(var(--fb-tile) * 0.6);
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+}
+
+/* Solid colour flashes (scramble frames + hover flips) */
+.fb-t[data-fill] { color: transparent; }
+.fb-t[data-fill="coral"] { background: var(--fb-coral); }
+.fb-t[data-fill="white"] { background: var(--fb-white); }
+.fb-t[data-fill="black"] { background: var(--fb-black); }
+.fb-t[data-fill="light"] { background: var(--fb-light); }
+
+/* Pause / play: sits exactly on the bottom-right tile */
+.fb-pause {
+  position: absolute;
+  left: calc((var(--fb-cols) - 1) * (var(--fb-tile) + var(--fb-gap)));
+  top: calc((var(--fb-rows) - 1) * (var(--fb-tile) + var(--fb-gap)));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--fb-tile);
+  height: var(--fb-tile);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: calc(var(--fb-tile) * 0.12);
+  background: var(--fb-tile-bg);
+  color: var(--fb-ink);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.fb-pause svg {
+  width: 38%;
+  height: 38%;
+  opacity: .62;
+  transition: opacity .15s ease;
+}
+.fb-pause:hover svg { opacity: 1; }
+.fb-pause:focus { outline: none; }
+.fb-pause:focus-visible {
+  outline: 2px solid var(--fb-coral);
+  outline-offset: 2px;
+}
+.fb-pause .fb-ico-play { display: none; }
+.fb-pause[aria-pressed="true"] .fb-ico-pause { display: none; }
+.fb-pause[aria-pressed="true"] .fb-ico-play { display: block; }
+
+/* Visually hidden live text */
+.fb-sr {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Before JS lays it out, reserve roughly the right height to avoid a jump */
+.fb:not(.fb--ready) { min-height: calc(var(--fb-tile) * 3 + var(--fb-gap) * 2); }
+
+/* The last cell sits under the pause button */
+.fb-t:last-child { visibility: hidden; }

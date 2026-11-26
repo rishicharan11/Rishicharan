@@ -282,31 +282,16 @@ svg.shp { overflow: visible; }
   #opening { position: relative; }
   #opening .op-hero { height: 100svh; min-height: 640px; }
   #opening .op-panel { position: relative; height: 100%; overflow: hidden; isolation: isolate; background: var(--blue); color: var(--white); }
-  #opening .op-shapes { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
-  #opening .op-shape { position: absolute; display: block; }
-  #opening .op-shape--ring { left: 40%; top: 17%; font-size: clamp(130px, 14vw, 230px); }
-  #opening .op-shape--donut { left: 61%; top: 47%; font-size: clamp(90px, 9.5vw, 150px); }
-  #opening .op-shape--donut .shp { color: var(--coral); }
-  #opening .op-shape--disc { left: 35.5%; top: 52%; font-size: clamp(44px, 4.2vw, 64px); }
-  #opening .op-shape--disc .shp { color: var(--black); }
-  #opening .op-shape--burst { left: 54%; top: 15%; font-size: clamp(70px, 7vw, 110px); }
-  #opening .op-copy { position: absolute; z-index: 3; left: clamp(20px, 3.4vw, 48px); top: clamp(104px, 15vh, 136px); width: min(32vw, 430px); }
-  #opening .op-title { font-size: clamp(40px, 4.2vw, 60px); }
-  #opening .op-line { display: block; }
-  #opening .op-line--quiet { color: var(--cap-on-blue); }
-  #opening .op-lead { margin-top: 18px; max-width: 34ch; color: var(--white); }
-  #opening .op-actions { margin-top: 28px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font-size: 15px; }
   #opening .op-hero .m-btn-2 { color: var(--white); padding-block: 15px; }
-  #opening .op-pile { position: absolute; z-index: 3; right: clamp(20px, 3.4vw, 48px); top: clamp(104px, 15vh, 136px); width: clamp(230px, 21vw, 300px); aspect-ratio: 1.15; }
-  #opening .op-card { position: absolute; inset: 0; display: flex; flex-direction: column; overflow: hidden; border-radius: var(--radius-3); background: var(--white); color: var(--blue); text-decoration: none; }
-  #opening .op-card--back { inset: 9% -6% -9% 6%; z-index: -1; background: var(--coral); rotate: 4deg; }
-  #opening .op-card__img { flex: 1; min-height: 0; width: 100%; object-fit: cover; object-position: 50% 45%; }
-  #opening .op-card__body { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px 14px; }
-  #opening .op-card__title { display: block; font-size: 19px; }
-  #opening .op-card__arrow { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: var(--radius-2); background: var(--blue); color: var(--white); font-size: 16px; transition: transform .5s cubic-bezier(.2,.9,.1,1); }
-  @media (hover: hover) { #opening .op-card:hover .op-card__arrow { transform: translateX(4px) scaleX(1.25); } }
-  #opening .op-word { position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; display: flex; justify-content: center; pointer-events: none; }
-  #opening .op-word__text { display: block; color: var(--white); white-space: nowrap; font-kerning: none; font-size: min(52vh, calc((100vw - 24px) / (var(--len) * .39))); translate: 0 9%; }
+  #opening .op-copy { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; justify-content: center; padding: 104px var(--space-1) clamp(48px, 8vh, 88px); }
+  #opening .op-board { width: min(100%, 1240px); --fb-max: 1240px; }
+  #opening .op-actions { margin-top: clamp(28px, 4.5vh, 48px); display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font-size: 15px; }
+  @media (prefers-reduced-motion: no-preference) {
+    #opening .op-actions { animation: op-rise .95s cubic-bezier(.2,.8,.2,1) .4s backwards; }
+  }
+  @media (max-width: 767.98px) {
+    #opening .op-copy { padding-top: 96px; justify-content: flex-start; }
+  }
   #opening .op-about { min-height: 100svh; display: grid; align-items: center; padding: var(--space-2) var(--space-1); }
   #opening .op-about__inner { position: relative; width: min(100%, 1240px); margin-inline: auto; display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 20px; }
   #opening .op-statement { grid-column: 2 / 12; grid-row: 1; text-indent: 3em; color: var(--blue); }
@@ -315,48 +300,9 @@ svg.shp { overflow: visible; }
   #opening .op-star { position: absolute; width: clamp(26px, 2.6vw, 38px); height: auto; color: var(--coral); left: 0; top: .2em; }
   #opening .op-star-cell { grid-column: 2 / 12; grid-row: 1; position: relative; pointer-events: none; }
   #opening .op-note { grid-column: 5 / 10; grid-row: 2; margin-top: 36px; max-width: 46ch; }
-  @media (prefers-reduced-motion: no-preference) {
-    #opening .op-line, #opening .op-actions, #opening .op-lead { animation: op-rise .95s cubic-bezier(.2,.8,.2,1) backwards; }
-    #opening .op-line--quiet { animation-delay: .08s; }
-    #opening .op-lead { animation-delay: .16s; }
-    #opening .op-actions { animation-delay: .22s; }
-    #opening .op-word { animation: op-lift 1.05s cubic-bezier(.2,.8,.2,1) .05s backwards; }
-    #opening .op-pile { animation: op-rise 1s cubic-bezier(.2,.8,.2,1) .12s backwards; }
-    #opening .op-shape .shp { animation: op-float 8s ease-in-out infinite alternate; }
-    #opening .op-shape--donut .shp { animation-duration: 10s; animation-delay: -4s; --fx: -16px; --fy: 14px; --fr: -10deg; }
-    #opening .op-shape--disc .shp { animation-duration: 6s; animation-delay: -2s; --fx: 10px; --fy: 16px; }
-    #opening .op-shape--burst .shp { animation: op-spin 40s linear infinite; }
-  }
-  [data-8b-live] #opening .op-hero { view-timeline: --op-hero block; view-timeline-inset: 0; }
-  [data-8b-live] #opening .op-shape { animation: op-parallax linear both; animation-timeline: --op-hero; animation-range: exit 0% exit 100%; }
-  [data-8b-live] #opening .op-shape--donut { --py: -40vh; }
-  [data-8b-live] #opening .op-shape--disc { --py: -55vh; }
-  [data-8b-live] #opening .op-shape--burst { --py: -12vh; }
   @keyframes op-rise { from { transform: translateY(26px); } }
-  @keyframes op-lift { from { transform: translateY(26%); } }
-  @keyframes op-float { from { transform: translate(0, 0) rotate(0deg); } to { transform: translate(var(--fx, 14px), var(--fy, -18px)) rotate(var(--fr, 8deg)); } }
-  @keyframes op-spin { to { rotate: 360deg; } }
-  @keyframes op-parallax { to { translate: 0 var(--py, -24vh); } }
-  @media (max-width: 1024px) {
-    #opening .op-copy { width: min(46vw, 430px); }
-    #opening .op-shape--ring { left: 50%; top: 40%; }
-    #opening .op-shape--burst { left: 74%; top: 52%; }
-    #opening .op-shape--donut { left: 78%; top: 68%; }
-    #opening .op-shape--disc { left: 50%; top: 66%; }
-  }
   @media (max-width: 767.98px) {
     #opening .op-hero { min-height: 720px; }
-    #opening .op-copy { left: 18px; right: 18px; top: 92px; width: auto; }
-    #opening .op-title { font-size: clamp(36px, 10.4vw, 46px); }
-    #opening .op-lead { max-width: 32ch; }
-    #opening .op-actions { margin-top: 22px; }
-    #opening .op-shape--ring { left: 6%; top: auto; bottom: calc(24vw + 60px); font-size: 104px; }
-    #opening .op-shape--disc { left: 36%; top: auto; bottom: calc(24vw + 150px); font-size: 40px; }
-    #opening .op-shape--burst, #opening .op-shape--donut { display: none; }
-    #opening .op-pile { top: auto; bottom: calc(24vw + 40px); right: 16px; width: 44vw; }
-    #opening .op-card__title { font-size: 15px; }
-    #opening .op-card__arrow { width: 28px; height: 28px; font-size: 14px; }
-    #opening .op-card__body { padding: 9px 10px 10px; }
     #opening .op-about__inner { display: block; }
     #opening .op-statement { text-indent: 1.7em; }
     #opening .op-star { top: .25em; width: 24px; }
@@ -605,6 +551,7 @@ svg.shp { overflow: visible; }
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@500&display=swap">
 <link rel="stylesheet" href="assets/services.css">
 <link rel="stylesheet" href="assets/nav-menu.css">
+<link rel="stylesheet" href="assets/flipboard.css">
 <script data-8b-part="motion-gate">
 if (matchMedia('(prefers-reduced-motion: no-preference)').matches && CSS.supports('animation-timeline: view()')) document.documentElement.setAttribute('data-8b-live', '');
 </script>
@@ -647,32 +594,25 @@ if (matchMedia('(prefers-reduced-motion: no-preference)').matches && CSS.support
   </div>
 </header>
 <main id="main">
-<!-- opening: a full-bleed blue panel (title, lead, two buttons, a latest-project card, drifting flat shapes and the name in TikTok Sans), then a two-tone statement on white with a coral starburst and two flat pills (animation: scene:opening-arrival) -->
+<!-- opening: a full-bleed blue panel with a split-flap board ("Hi, I'm Rishi / a <role> / I design for living.", roles flip in turn; assets/flipboard.*) and two buttons, then a two-tone statement on white with a coral starburst and two flat pills (animation: scene:opening-arrival) -->
 <section id="opening" data-8b-section="opening" aria-labelledby="opening-title">
   <div class="op-hero">
     <div class="op-panel">
-      <div class="op-shapes" aria-hidden="true">
-        <span class="op-shape op-shape--ring"><span class="shp shp-ring"></span></span>
-        <span class="op-shape op-shape--burst"><svg class="shp shp-burst" viewBox="-50 -50 100 100" aria-hidden="true" fill="currentColor"><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(0.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(15.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(30.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(45.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(60.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(75.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(90.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(105.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(120.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(135.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(150.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(165.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(180.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(195.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(210.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(225.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(240.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(255.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(270.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(285.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(300.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(315.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(330.0)"/><rect x="-2.6" y="-50" width="5.2" height="32" rx="2.6" transform="rotate(345.0)"/></svg></span>
-        <span class="op-shape op-shape--donut"><span class="shp shp-donut"></span></span>
-        <span class="op-shape op-shape--disc"><span class="shp shp-donut"></span></span>
-      </div>
       <div class="op-copy">
-        <h1 class="m-text-3 op-title" id="opening-title"><span class="sr-only">Rishi Charan, </span><span class="op-line">Product &amp; UI/UX designer</span> <span class="op-line op-line--quiet">for apps and the web</span></h1>
-        <p class="m-text op-lead">I design clear, calm interfaces: from the first user interview to the last pixel a developer needs.</p>
+        <h1 class="sr-only" id="opening-title">Hi, I&rsquo;m Rishi Charan, a UI/UX designer, product designer, visual designer, UX designer and UX researcher. I design for living.</h1>
+        <div class="op-board">
+          <div class="fb" data-fb
+               data-intro="HI, I'M RISHI"
+               data-lead="A"
+               data-roles="UI/UX DESIGNER|PRODUCT DESIGNER|VISUAL DESIGNER|UX DESIGNER|UX RESEARCHER"
+               data-outro="I DESIGN FOR LIVING."
+               data-interval="3200"></div>
+        </div>
         <div class="op-actions">
           <a class="m-btn" href="#work"><span class="m-btn__streak" aria-hidden="true"></span><span class="m-btn__label">See the work</span></a>
           <a class="m-btn-2" href="#contact"><span class="m-btn-2__streak" aria-hidden="true"></span><span class="m-btn-2__label">Get in touch</span></a>
         </div>
       </div>
-      <div class="op-pile">
-        <span class="op-card op-card--back" aria-hidden="true"></span>
-        <a class="op-card" href="#work">
-          <img class="op-card__img" src="assets/work/hydr8.jpg" alt="The Hydr8 app on a phone, showing today’s hydration progress and water-quality readings" width="1800" height="1233" fetchpriority="high">
-          <span class="op-card__body"><span><span class="m-text-2">Latest</span><span class="m-text-5 op-card__title">Hydr8</span></span><span class="op-card__arrow" aria-hidden="true">→</span></span>
-        </a>
-      </div>
-      <div class="op-word" aria-hidden="true"><span class="m-text-6 op-word__text" style="--len:12">rishi charan</span></div>
     </div>
   </div>
   <div class="op-about">
@@ -1232,5 +1172,6 @@ motionKit.scene("method-timeline", () => {
 <script src="assets/breaker.js" defer></script>
 <script src="assets/services.js" defer></script>
 <script src="assets/pixel-trail.js" defer></script>
+<script src="assets/flipboard.js" defer></script>
 </body>
 </html>

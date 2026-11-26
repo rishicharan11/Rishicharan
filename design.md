@@ -88,3 +88,7 @@ a view-timeline parallax. Without scroll-driven animations or with reduced motio
 ## Footer game: Pixel Breaker
 
 `assets/breaker.js` + `assets/breaker.css` replace the drag-the-labels playground with a small brick breaker: skill slabs in the brand looks (white, outlined, coral, black) float at the top, a white ball with a fading trail, a white paddle with a coral bar, coral/white confetti on hits, dashed outlines where slabs broke, new slabs dropping into empty slots, waves with a bonus. HUD (lives, score, new wave, pause, full screen) and the key bar use Geist Mono. Keys are only captured while the game frame has focus; the loop runs only while the footer is on screen.
+
+## Hero: split-flap board
+
+The hero is a split-flap board (`assets/flipboard.js` + `.css`, after the Coinbase Design System board): "HI, I'M RISHI / A <ROLE> / I DESIGN FOR LIVING." in white on darker-blue tiles. Roles (UI/UX, product, visual, UX designer, UX researcher) flip in turn every ~3s with a scramble through characters and coral/light-blue/white/black tiles; hover flips a tile to a colour; a pause button stops the cycle (WCAG 2.2.2). Reduced motion swaps text without scrambling. The h1 is a visually hidden full sentence.
